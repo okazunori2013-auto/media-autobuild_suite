@@ -1,0 +1,28 @@
+name: build
+
+on:
+  pull_request:
+  push:
+    branches: 
+      - master
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: install dependencies
+        run: |
+          choco install cuda --no-progress -y
+      - name: Checkout
+        uses: actions/checkout@v3          
+      - name: run media-autobuild
+        shell: cmd
+        run: |
+          ./media-autobuild_suite.bat
+          7z.exe a ffmpeg.7z ./local64 ./build/*.zip
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: media-autobuild_suite
+          path: ffmpeg.7z
+          retention-days: 4
