@@ -10,7 +10,7 @@ if [[ -z $LOCALBUILDDIR ]]; then
         "fstab: " \
         "$(cat /etc/fstab)" \
         "Create a new issue and upload all logs you can find, especially compile.log"
-    read -r -p "Enter to continue" ret
+    #read -r -p "Enter to continue" ret
     exit 1
 fi
 FFMPEG_BASE_OPTS=("--pkg-config=pkgconf" --pkg-config-flags="--keep-system-libs --keep-system-cflags --static" "--cc=$CC" "--cxx=$CXX" "--ld=$CXX" "--extra-cxxflags=-fpermissive")
@@ -651,6 +651,8 @@ if [[ $ffmpeg != no ]] && enabled libzimg &&
     do_checkIfExist
 fi
 
+find $LOCALBUILDDIR -maxdepth 2 -type d -name "*-git" -exec rm -rf {} \+
+
 set_title "compiling audio tools"
 do_simple_print -p '\n\t'"${orange}Starting $bits compilation of audio tools${reset}"
 
@@ -986,6 +988,8 @@ if { { [[ $ffmpeg != no ]] &&
     do_checkIfExist
     unset _mingw_patches
 fi
+
+find $LOCALBUILDDIR -maxdepth 3 -type d -name "*-git" -exec rm -rf {} +
 
 set_title "compiling video tools"
 do_simple_print -p '\n\t'"${orange}Starting $bits compilation of video tools${reset}"
