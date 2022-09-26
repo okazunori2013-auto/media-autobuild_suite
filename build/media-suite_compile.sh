@@ -1498,6 +1498,8 @@ if [[ $xvc == y ]] &&
     do_checkIfExist
 fi
 
+find $LOCALBUILDDIR -maxdepth 3 -type d -name "*-git" -exec rm -rf {} +
+
 if [[ $x264 != no ]] ||
     { [[ $ffmpeg != no ]] && enabled libx264; }; then
     _check=(x264{,_config}.h libx264.a x264.pc)
@@ -1941,6 +1943,8 @@ if { { [[ $mpv != n ]]  && ! mpv_disabled libplacebo; } ||
     do_checkIfExist
 fi
 
+find $LOCALBUILDDIR -maxdepth 3 -type d -name "*-git" -exec rm -rf {} +
+
 _check=(libplacebo.{a,pc})
 _deps=(lib{vulkan,shaderc_combined}.a spirv-cross.pc)
 if { { [[ $mpv != n ]]  && ! mpv_disabled libplacebo; } ||
@@ -2156,6 +2160,8 @@ if [[ $ffmpeg != no ]]; then
         unset ffmpeg_cflags build_suffix
     fi
 fi
+
+find $LOCALBUILDDIR -maxdepth 3 -type d -name "*-git" -exec rm -rf {} +
 
 # static do_vcs just for svn
 check_mplayer_updates() {
@@ -2895,4 +2901,5 @@ if [[ -f $LOCALBUILDDIR/post_suite.sh ]]; then
 fi
 do_simple_print -p "${green}Compilation successful.${reset}"
 do_simple_print -p "${green}This window will close automatically in 5 seconds.${reset}"
+find $LOCALBUILDDIR -maxdepth 3 -type d -name "*-git" -exec rm -rf {} +
 sleep 5
