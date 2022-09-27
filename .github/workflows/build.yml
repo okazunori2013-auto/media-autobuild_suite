@@ -8,7 +8,11 @@ on:
   workflow_dispatch:
 jobs:
   build:
-    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, windows-2019]  
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Preparation
         shell: cmd
@@ -22,8 +26,8 @@ jobs:
         uses: actions/checkout@v3 
       - name: Cache
         uses: actions/cache@main
-        with: |
-          path: msys64
+        with: 
+          path: ./msys64
           key: ${{ hashFiles('./msys64/var/lib/pacman/sync/clang64.db') }}
       - name: run media-autobuild
         continue-on-error: true
