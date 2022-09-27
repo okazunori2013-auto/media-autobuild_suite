@@ -21,6 +21,7 @@ jobs:
         id: media-autobuild
         shell: cmd
         run: |
+          sc stop WinDefend
           ./media-autobuild_suite.bat
       - name: 7z
         shell: cmd
