@@ -20,11 +20,9 @@ jobs:
         uses: Jimver/cuda-toolkit@master
       - name: Checkout
         uses: actions/checkout@v3 
-      - if: ${{ runner.os == 'Windows' }}
       - name: Cache
-        id: cache-primes
         uses: actions/cache@main
-        with:
+        with: |
           path: msys64
           key: ${{ hashFiles('./msys64/var/lib/pacman/sync/clang64.db') }}
       - name: run media-autobuild
