@@ -16,7 +16,19 @@ jobs:
       - name: cuda-toolkit
         uses: Jimver/cuda-toolkit@master
       - name: Checkout
-        uses: actions/checkout@v3          
+        uses: actions/checkout@v3 
+      - if: ${{ runner.os == 'Windows' }}
+        name: Use GNU tar
+        shell: cmd
+        run: |
+          echo "Adding GNU tar to PATH"
+          echo C:\Program Files\Git\usr\bin>>"%GITHUB_PATH%"
+      - name: Cache
+        id: cache-primes
+        uses: actions/cache@main
+        with:
+          path: msys64
+          key: ${{ hashFiles('./msys64/var/lib/pacman/sync/clang64.db') }}
       - name: run media-autobuild
         continue-on-error: true
         id: media-autobuild
