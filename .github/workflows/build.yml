@@ -29,6 +29,10 @@ jobs:
         with: 
           path: msys64
           key: msys-${{ hashFiles('./msys64/var/lib/pacman/sync/clang64.db') }}
+          restore-keys: |
+             msys-${{ hashFiles('./msys64/var/lib/pacman/sync/clang64.db') }}
+             msys-
+          
       - name: run media-autobuild
         continue-on-error: true
         id: media-autobuild
