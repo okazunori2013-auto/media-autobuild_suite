@@ -27,8 +27,8 @@ jobs:
       - name: Cache
         uses: actions/cache@main
         with: 
-          path: ./msys64
-          key: ${{ hashFiles('./msys64/var/lib/pacman/sync/clang64.db') }}
+          path: msys64
+          key: msys-${{ hashFiles('./msys64/var/lib/pacman/sync/clang64.db') }}
       - name: run media-autobuild
         continue-on-error: true
         id: media-autobuild
