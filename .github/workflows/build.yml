@@ -8,15 +8,30 @@ on:
   workflow_dispatch:
 jobs:
   build:
-    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, windows-2019]  
+    runs-on: ${{ matrix.os }}
     steps:
-      - name: install dependencies
+      - name: Preparation
+        shell: cmd
         run: |
           fsutil 8dot3name set 0
+          echo "Adding GNU tar to PATH"
+          echo C:\Program Files\Git\usr\bin>>"%GITHUB_PATH%"
       - name: cuda-toolkit
         uses: Jimver/cuda-toolkit@master
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3 
+      - name: Cache
+        uses: actions/cache@main
+        with: 
+          path: msys64
+          key: msys-${{ hashFiles('./build/media-suite_compile.sh') }}
+          restore-keys: |
+             msys-${{ hashFiles('./build/media-suite_compile.sh') }}
+             msys-
       - name: run media-autobuild
         continue-on-error: true
         id: media-autobuild
@@ -26,11 +41,11 @@ jobs:
       - name: 7z
         shell: cmd
         run: |
-          7z.exe a ffmpeg.7z ./local64 ./build/*.zip
+          if exist ./build/logs.zip (7z.exe a ffmpeg.7z ./local64 ./build/logs.zip) else ("7z.exe a ffmpeg.7z ./local64)
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: media-autobuild_suite
+          name: media-autobuild_suite-${{ matrix.os }}
           path: ffmpeg.7z
           retention-days: 4
       - name: error handling    
