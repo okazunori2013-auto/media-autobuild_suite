@@ -28,9 +28,8 @@ jobs:
         uses: actions/cache@main
         with: 
           path: msys64
-          key: msys-${{ hashFiles('./build/media-suite_compile.sh') }}-${{ hashFiles('./msys64/var/lib/pacman/sync/clang64.db') }}
+          key: msys-${{ hashFiles('./build/media-suite_compile.sh') }}
           restore-keys: |
-             msys-${{ hashFiles('./build/media-suite_compile.sh') }}
              msys-
       - name: run media-autobuild
         continue-on-error: true
