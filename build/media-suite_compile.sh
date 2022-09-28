@@ -10,7 +10,7 @@ if [[ -z $LOCALBUILDDIR ]]; then
         "fstab: " \
         "$(cat /etc/fstab)" \
         "Create a new issue and upload all logs you can find, especially compile.log"
-    read -r -p "Enter to continue" ret
+    #read -r -p "Enter to continue" ret
     exit 1
 fi
 FFMPEG_BASE_OPTS=("--pkg-config=pkgconf" --pkg-config-flags="--keep-system-libs --keep-system-cflags --static" "--cc=$CC" "--cxx=$CXX" "--ld=$CXX" "--extra-cxxflags=-fpermissive")
@@ -652,6 +652,8 @@ if [[ $ffmpeg != no ]] && enabled libzimg &&
     do_checkIfExist
 fi
 
+find $LOCALBUILDDIR -maxdepth 2 -type d -name "*-git" -exec rm -rf {} \+
+
 set_title "compiling audio tools"
 do_simple_print -p '\n\t'"${orange}Starting $bits compilation of audio tools${reset}"
 
@@ -987,6 +989,8 @@ if { { [[ $ffmpeg != no ]] &&
     do_checkIfExist
     unset _mingw_patches
 fi
+
+find $LOCALBUILDDIR -maxdepth 3 -type d -name "*-git" -exec rm -rf {} +
 
 set_title "compiling video tools"
 do_simple_print -p '\n\t'"${orange}Starting $bits compilation of video tools${reset}"
@@ -1496,6 +1500,8 @@ if [[ $xvc == y ]] &&
     do_checkIfExist
 fi
 
+find $LOCALBUILDDIR -maxdepth 3 -type d -name "*-git" -exec rm -rf {} +
+
 if [[ $x264 != no ]] ||
     { [[ $ffmpeg != no ]] && enabled libx264; }; then
     _check=(x264{,_config}.h libx264.a x264.pc)
@@ -1938,6 +1944,8 @@ if { { [[ $mpv != n ]]  && ! mpv_disabled libplacebo; } ||
     do_checkIfExist
 fi
 
+find $LOCALBUILDDIR -maxdepth 3 -type d -name "*-git" -exec rm -rf {} +
+
 _check=(libplacebo.{a,pc})
 _deps=(lib{vulkan,shaderc_combined}.a spirv-cross.pc)
 if { { [[ $mpv != n ]]  && ! mpv_disabled libplacebo; } ||
@@ -2153,6 +2161,8 @@ if [[ $ffmpeg != no ]]; then
         unset ffmpeg_cflags build_suffix
     fi
 fi
+
+find $LOCALBUILDDIR -maxdepth 3 -type d -name "*-git" -exec rm -rf {} +
 
 # static do_vcs just for svn
 check_mplayer_updates() {
@@ -2434,7 +2444,7 @@ if [[ $mpv != n ]] && pc_exists libavcodec libavformat libswscale libavfilter; t
         extra_script post configure
 
         replace="LIBPATH_lib\1 = ['${LOCALDESTDIR}/lib','${MINGW_PREFIX}/lib']"
-        sed -r -i "s:LIBPATH_lib(ass|av(|device|filter)) = .*:$replace:g" ./build/c4che/_cache.py	
+        sed -r -i "s:LIBPATH_(lib)?(ffmpeg|ass|av|archive|bluray|jpegxl(|device|filter)) = .*:$replace:g" ./build/c4che/_cache.py	
 
         extra_script pre build
         log build /usr/bin/python waf -j "${cpuCount:-1}"
@@ -2892,4 +2902,5 @@ if [[ -f $LOCALBUILDDIR/post_suite.sh ]]; then
 fi
 do_simple_print -p "${green}Compilation successful.${reset}"
 do_simple_print -p "${green}This window will close automatically in 5 seconds.${reset}"
+find $LOCALBUILDDIR -maxdepth 3 -type d -name "*-git" -exec rm -rf {} +
 sleep 5
