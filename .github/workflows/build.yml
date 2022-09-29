@@ -51,7 +51,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: media-autobuild_suite
+          name: media-autobuild_suite-${{ matrix.os }}
           path: ffmpeg.7z
           retention-days: 4
       - name: error handling    
