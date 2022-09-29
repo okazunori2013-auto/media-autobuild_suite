@@ -29,6 +29,7 @@ jobs:
         run: |
           sed -i 's/do_prompt /echo /g' build/media-suite_helper.sh build/media-suite_compile.sh
           sed -i 's/read.*yn/yn=y/g' build/media-suite_update.sh
+          sed -i "/^color$/d" media-autobuild_suite.bat
       - name: Cache
         uses: actions/cache@main
         with: 
