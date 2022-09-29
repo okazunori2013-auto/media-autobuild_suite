@@ -47,7 +47,7 @@ jobs:
       - name: 7z
         shell: cmd
         run: |
-          7z.exe a ffmpeg.7z ./local64 ./build/*.zip
+          7z.exe a ffmpeg.7z ./local64 ./build/logs.zip
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
