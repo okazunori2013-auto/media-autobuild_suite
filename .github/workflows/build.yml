@@ -47,7 +47,7 @@ jobs:
       - name: 7z
         shell: cmd
         run: |
-          if exist ./build/logs.zip (7z.exe a ffmpeg.7z ./local64 ./build/logs.zip) else ("7z.exe a ffmpeg.7z ./local64)
+          if exist ./build/logs.zip (7z.exe a ffmpeg.7z ./local64 ./build/logs.zip) else (7z.exe a ffmpeg.7z ./local64)
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
