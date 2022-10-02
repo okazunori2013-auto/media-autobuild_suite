@@ -359,7 +359,7 @@ if [[ $curl = y ]]; then
 fi
 _check=(libgnutls.{,l}a gnutls.pc)
 _gnutls_ver=3.7.8
-_gnutls_hash=C58AD39AF0670EFE6A8AEE5E3A8B2331A1200418B64B7C51977FB396D4617114
+_gnutls_hash=c58ad39af0670efe6a8aee5e3a8b2331a1200418b64b7c51977fb396d4617114
 if enabled_any gnutls librtmp || [[ $rtmpdump = y || $curl = gnutls ]] &&
     do_pkgConfig "gnutls = $_gnutls_ver" &&
     do_wget -h $_gnutls_hash \
