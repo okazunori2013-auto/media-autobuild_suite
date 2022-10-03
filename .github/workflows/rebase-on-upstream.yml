@@ -11,6 +11,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
       with:
+        persist-credentials: false
         fetch-depth: 0
     - uses: yt-dlp/rebase-upstream-action@master
     - uses: actions/checkout@master
@@ -23,5 +24,4 @@ jobs:
         fetch-depth: 0
     - uses: yt-dlp/rebase-upstream-action@master
     - uses: actions/checkout@master    
-        persist-credentials: false
     - uses: yt-dlp/rebase-upstream-action@master
